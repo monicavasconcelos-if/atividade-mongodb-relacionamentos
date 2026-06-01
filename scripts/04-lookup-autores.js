@@ -1,0 +1,19 @@
+use("livraria");
+
+db.livro.aggregate([
+{
+    $lookup:{
+        from:"autor",
+        localField:"autores",
+        foreignField:"_id",
+        as:"autoresInfo"
+    }
+},
+{
+    $project:{
+        _id:0,
+        title:"$titulo",
+        autores:"$autoresInfo.nome"
+    }
+}
+]);

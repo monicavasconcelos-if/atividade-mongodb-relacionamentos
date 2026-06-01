@@ -1,0 +1,23 @@
+use("livraria");
+
+db.livro.aggregate([
+{
+    $lookup:{
+        from:"editora",
+        localField:"editora",
+        foreignField:"_id",
+        as:"editoraInfo"
+    }
+},
+{
+    $unwind:"$editoraInfo"
+},
+{
+    $project:{
+        _id:0,
+        title:"$titulo",
+        editora:"$editoraInfo.nome",
+        cidade:"$editoraInfo.cidade"
+    }
+}
+]);
